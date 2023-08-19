@@ -1,14 +1,14 @@
 import css from './Form.module.css';
 import { nanoid } from "nanoid";
 import { useDispatch, useSelector } from "react-redux";
-import { addContact } from '../redux/contactSlice';
+import { addContact } from '../redux/operations';
 import { useState } from 'react';
 import { selectContacts } from '../redux/selectors';
 import { toast } from 'react-toastify';
 
 const ContactForm = () => {
     const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
+    const [phone, setPhone] = useState('');
     const dispatch = useDispatch();
     const contacts = useSelector(selectContacts);
   
@@ -17,8 +17,8 @@ const ContactForm = () => {
         case 'name':
           setName(value);
           break;
-        case 'number':
-          setNumber(value);
+        case 'phone':
+          setPhone(value);
           break;
         default:
       }
@@ -30,7 +30,7 @@ const ContactForm = () => {
       const newContact = {
         id: nanoid(),
         name,
-        number,
+        phone,
       };
   
       const isExist = contacts.some(
@@ -50,7 +50,7 @@ const ContactForm = () => {
   
     const reset = () => {
       setName('');
-      setNumber('');
+      setPhone('');
     };
         return (
             <form className={css.container} onSubmit={handlerSubmit}>
@@ -64,15 +64,15 @@ const ContactForm = () => {
                         onChange={handlerChenge}
                         value={name}
                     />
-                    <label htmlFor={nanoid()}>Number</label>
+                    <label htmlFor={nanoid()}>Phone</label>
                     <input
                         type="tel"
-                        name="number"
+                        name="phone"
                         pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
                         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                         required
                         onChange={handlerChenge}
-                        value={number}
+                        value={phone}
                     />
                 <button type="submit" className={css.formBtn}>Add contact</button>
             </form>
